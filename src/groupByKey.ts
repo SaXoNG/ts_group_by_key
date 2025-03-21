@@ -7,12 +7,14 @@ export function groupByKey<Item extends Record<string, any>>(
   key: keyof Item,
 ): GroupsMap<Item> {
   return items.reduce((groups, item) => {
-    const keyValue = item[key] as unknown as string;
+    const keyValue = item[key];
 
-    if (!groups[keyValue]) {
-      groups[keyValue] = [];
+    const groupKey = typeof keyValue === 'string' ? keyValue : String(keyValue);
+
+    if (!groups[groupKey]) {
+      groups[groupKey] = [];
     }
-    groups[keyValue].push(item);
+    groups[groupKey].push(item);
 
     return groups;
   }, {} as GroupsMap<Item>);
